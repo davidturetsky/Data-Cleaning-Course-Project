@@ -1,0 +1,179 @@
+CodeBook for run_analysis.R
+_______________________________________________________________________
+
+Study Design
+The study data was taken from the Human Activity Recognition Using 
+Smartphones Dataset
+Version 1.0
+==================================================================
+Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.
+Smartlab - Non Linear Complex Systems Laboratory
+DITEN - Universit‡ degli Studi di Genova.
+Via Opera Pia 11A, I-16145, Genoa, Italy.
+activityrecognition@smartlab.ws
+www.smartlab.ws
+
+
+The dataset includes the following files:
+=========================================
+1. This README.txt document
+2. The R program - run_analysis.R
+3. The resulting data set - tidy_dataset.txt
+4. The associated codebook - CodeBook.txt
+
+Instruction Book
+The way the run_analysis.R was constructed:
+1. Setting of environmental variables and libraries required.
+2. Loading data files for each relevant file including:
+-subject_test.txt - includes all of the subject numbers that were defined as part of 
+the test group.
+-X_test.txt - the measurements of each of the activities in the test as shown below 
+in the table marked features.
+-y_test.txt - the activity numbers corresponding to each subject in the study marked
+as in the test.
+-subject_train.txt - includes all of the subject numbers that were defined as part of 
+the study group.
+-X_train.txt - the measurements of each of the activities in the study as shown below 
+in the table marked features.
+-y_train.txt - the activity numbers corresponding to each subject in the study marked
+as in the study.
+-activity_labels.txt - the activity table as shown below in the table Activities
+-features.txt - the Superset of the features covered in the study. 
+-features_info.txt - a description of the features measured in the study.  Shown below as 
+Measurements information.
+
+3. Transforms on features data - the feature names included unfriendly R characters.  In
+order to prevent any problems, I loaded the feature names into a table from features.txt.
+Then I ran gsubs on them to remove the offending characters.
+
+4. Application of labels as column names - the column names that were loaded in raw form 
+needed to be corrected and made more friendly.  At this point, I added the transformed
+feature_labels constructed in the earlier step.
+
+5. Combining files - the next step was to take the loaded data sets and combine them
+into an untidy set.  I did this by making a train and test set with labels showing which
+data came from which file.  Then, I rbind'ed the files together into raw_total.
+
+6. Removal of all but the mean and std dev measurements - the next step was to grep the
+appropriate column names from the raw_total data frame.  This entailed some pain in the 
+meanFreq columns as just selecting mean through grep included this unnecessary columns.
+When all of the correct columns were chosen, then I created a new data frame called 
+total_wide.
+
+7. Make a tidier data set - in order to get to the right form of the data set to make it
+tidy, I had to segment the variable columns from the measurements columns.  Then I used
+melt to bring the total_wide data frame to the total_narrow data frame. Unbelievably it 
+worked and quickly too.  The other methods I had tried were much slower and less 
+efficient. Special props to the TA for suggesting the Tidy Data paper by Hadley Wickham.
+That was my savior on how and what form the final data set should look like.
+
+8. Creating the tiny data set - now that I had a narrow data set, it was ready to be 
+made tidy and apply the mean to the Subject, Activity and Variable variables upon the 
+Measurement column from the narrow (tidy) data set in 7.  This produced a data frame
+that had Subject, Activity, Variable and Measurements.  
+
+9. Writing the file.  This file was then written to tidy_dataset.txt in the current 
+directory.  Voila!!!
+
+Table - Features
+1   tBodyAcc-XYZ
+2	tGravityAcc-XYZ
+3	tBodyAccJerk-XYZ
+4	tBodyGyro-XYZ
+5	tBodyGyroJerk-XYZ
+6	tBodyAccMag
+7	tGravityAccMag
+8	tBodyAccJerkMag
+9	tBodyGyroMag
+10	tBodyGyroJerkMag
+11	fBodyAcc-XYZ
+12	fBodyAccJerk-XYZ
+13	fBodyGyro-XYZ
+14	fBodyAccMag
+15	fBodyAccJerkMag
+16	fBodyGyroMag
+
+Table - Activities
+1   WALKING
+2	WALKING_UPSTAIRS
+3	WALKING_DOWNSTAIRS
+4	SITTING
+5	STANDING
+6	LAYING
+
+Measurements Information from the Human Interaction Study
+The features selected for this database come from the accelerometer and
+gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain
+signals (prefix 't' to denote time) were captured at a constant rate of
+50 Hz. Then they were filtered using a median filter and a 3rd order low
+pass Butterworth filter with a corner frequency of 20 Hz to remove
+noise. Similarly, the acceleration signal was then separated into body
+and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ)
+using another low pass Butterworth filter with a corner frequency of 0.3
+Hz.
+
+Subsequently, the body linear acceleration and angular velocity were
+derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and
+tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional
+signals were calculated using the Euclidean norm (tBodyAccMag,
+tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag).
+
+Finally a Fast Fourier Transform (FFT) was applied to some of these
+signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ,
+fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to
+indicate frequency domain signals).
+
+These signals were used to estimate variables of the feature vector for
+each pattern: '-XYZ' is used to denote 3-axial signals in the X, Y and Z
+directions.
+
+mean(): Mean value std(): Standard deviation mad(): Median absolute
+deviation max(): Largest value in array min(): Smallest value in array
+sma(): Signal magnitude area energy(): Energy measure. Sum of the
+squares divided by the number of values. iqr(): Interquartile range
+entropy(): Signal entropy arCoeff(): Autorregresion coefficients with
+Burg order equal to 4 correlation(): correlation coefficient between two
+signals maxInds(): index of the frequency component with largest
+magnitude meanFreq(): Weighted average of the frequency components to
+obtain a mean frequency skewness(): skewness of the frequency domain
+signal kurtosis(): kurtosis of the frequency domain signal
+bandsEnergy(): Energy of a frequency interval within the 64 bins of the
+FFT of each window. angle(): Angle between to vectors.
+
+Additional vectors obtained by averaging the signals in a signal window
+sample. These are used on the angle() variable:
+
+gravityMean tBodyAccMean tBodyAccJerkMean tBodyGyroMean
+tBodyGyroJerkMean
+
+The complete list of variables of each feature vector is available in
+'features.txt'
+
+While the data from the study included other variables measured, only mean and 
+standard deviation were used to compile the tidy_dataset.txt.
+
+Code Book
+This information came from the Human Interaction study:
+The experiments have been carried out with a group of 30 volunteers
+within an age bracket of 19-48 years. Each person performed six
+activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING,
+STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the
+waist. Using its embedded accelerometer and gyroscope, we captured
+3-axial linear acceleration and 3-axial angular velocity at a constant
+rate of 50Hz. The experiments have been video-recorded to label the data
+manually. The obtained dataset has been randomly partitioned into two
+sets, where 70% of the volunteers was selected for generating the
+training data and 30% the test data.
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by
+applying noise filters and then sampled in fixed-width sliding windows
+of 2.56 sec and 50% overlap (128 readings/window). The sensor
+acceleration signal, which has gravitational and body motion components,
+was separated using a Butterworth low-pass filter into body acceleration
+and gravity. The gravitational force is assumed to have only low
+frequency components, therefore a filter with 0.3 Hz cutoff frequency
+was used. From each window, a vector of features was obtained by
+calculating variables from the time and frequency domain. 
+
+
+
