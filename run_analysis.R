@@ -10,28 +10,28 @@ run_analysis<-function(){
         
         ##1. Load data files
         ##1.1 Load test data files
-        subject_test<-read.table("UCI HAR Dataset/test/subject_test.txt", header = FALSE, stringsAsFactors=FALSE)
-        unlink("UCI HAR Dataset/test/subject_test.txt")
-        x_test<-read.table("UCI HAR Dataset/test/X_test.txt", header = FALSE, stringsAsFactors=FALSE)
-        unlink("UCI HAR Dataset/test/X_test.txt")
-        y_test<-read.table("UCI HAR Dataset/test/y_test.txt", header = FALSE, stringsAsFactors=FALSE)
-        unlink("UCI HAR Dataset/test/y_test.txt")
+        subject_test<-read.table("subject_test.txt", header = FALSE, stringsAsFactors=FALSE)
+        unlink("subject_test.txt")
+        x_test<-read.table("X_test.txt", header = FALSE, stringsAsFactors=FALSE)
+        unlink("X_test.txt")
+        y_test<-read.table("y_test.txt", header = FALSE, stringsAsFactors=FALSE)
+        unlink("y_test.txt")
         
         ##1.2 Load train data files
-        subject_train<-read.table("UCI HAR Dataset/train/subject_train.txt", header = FALSE, stringsAsFactors=FALSE)
-        unlink("UCI HAR Dataset/train/subject_train.txt")
-        x_train<-read.table("UCI HAR Dataset/train/X_train.txt", header = FALSE, stringsAsFactors=FALSE)
-        unlink("UCI HAR Dataset/train/X_train.txt")
-        y_train<-read.table("UCI HAR Dataset/train/y_train.txt", header = FALSE, stringsAsFactors=FALSE)
-        unlink("UCI HAR Dataset/train/y_train.txt")
+        subject_train<-read.table("subject_train.txt", header = FALSE, stringsAsFactors=FALSE)
+        unlink("subject_train.txt")
+        x_train<-read.table("X_train.txt", header = FALSE, stringsAsFactors=FALSE)
+        unlink("X_train.txt")
+        y_train<-read.table("y_train.txt", header = FALSE, stringsAsFactors=FALSE)
+        unlink("y_train.txt")
         
         ##1.3 Load label files
-        raw_activities<-read.table("UCI HAR Dataset/activity_labels.txt", header = FALSE, stringsAsFactors=FALSE)
-        unlink("UCI HAR Dataset/activity_labels.txt")
-        raw_features<-read.table("UCI HAR Dataset/features.txt", header = FALSE, stringsAsFactors=FALSE)
-        unlink("UCI HAR Dataset/features.txt")
-        raw_features_info<-read.table("UCI HAR Dataset/features_info.txt",skip=12,nrows=16, header = FALSE, stringsAsFactors=FALSE)
-        unlink("UCI HAR Dataset/features_info.txt")
+        raw_activities<-read.table("activity_labels.txt", header = FALSE, stringsAsFactors=FALSE)
+        unlink("activity_labels.txt")
+        raw_features<-read.table("features.txt", header = FALSE, stringsAsFactors=FALSE)
+        unlink("features.txt")
+        raw_features_info<-read.table("features_info.txt",skip=12,nrows=16, header = FALSE, stringsAsFactors=FALSE)
+        unlink("features_info.txt")
         
         
         ##1.4 Transform label names into R friendly names
